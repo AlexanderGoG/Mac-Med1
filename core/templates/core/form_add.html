@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+{% block content %}
+    <form class="form-message">
+        {% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <label for="">Номер телефона</label>
+                    <input name="phone" class="form-control" type="text" required>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="">Фамилия</label>
+                    <input name="first_name" class="form-control" type="text" required>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="">Имя</label>
+                    <input name="second_name" class="form-control" type="text" required>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label for="">Отчество</label>
+                  <input name="otchestvo" class="form-control" type="text">
+                </div>
+                <div class="col-6">
+                    <label for="">Возраст</label>
+                    <input name="vozrast" class="form-control" type="text" required>
+                </div>
+                <div class="col-6">
+                    <label for="">Пол</label>
+                    <select name="pol" class="custom-select" id="inputGroupSelect01">
+
+                        <option selected></option>
+                        <option value="{{ pol_list.FEMALE }}">{{ pol_list.FEMALE.label }}</option>
+                        <option value="{{ pol_list.MALE }}">{{ pol_list.MALE.label }}</option>
+
+                    </select>
+
+
+                </div>
+                <div class="col-12">
+                    <label for="">Адрес</label>
+                    <input name="adress" class="form-control" type="text" required>
+                </div>
+                <div class="col-12">
+                    <label for="">Проблема</label>
+                    <select name="problem" class="form-control" id="">
+                        {% for i in problem_list %}
+                            <option value="{{ i.id }}">{{ i.name }} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="">Описание</label>
+                    <textarea name="opisanie" class="form-control " id="FCT" rows="3"></textarea>
+                </div>
+                <div class="col-12">
+                    <label for="">Статус</label>
+                    <select name="status" class="form-control" id="">
+                        {% for i in status_list %}
+                            <option value="{{ i.id }}">{{ i.name }} </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Отправить</button>
+        </div>
+
+    </form>
+
+
+
+
+
+
+
+
+{% endblock %}

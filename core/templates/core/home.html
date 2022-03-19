@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+   <div class="row">
+       <div class="col-12">
+        <table class="table">
+            <tr>
+                <th>
+                    Телефон
+                </th>
+                <th>
+                    ФИО
+                </th>
+                 <th>
+                    Адрес
+                </th>
+                 <th>
+                    Возраст
+                </th>
+                 <th>
+                    Пол
+                </th>
+                 <th>
+                    Описание
+                </th>
+                 <th>
+                    Статус
+                </th>
+                 <th>
+                    Проблема
+                </th>
+            </tr>
+            {% for i in obrashenie %}
+                <tr>
+                <td>
+                    {{ i.phone }}
+                </td>
+                <td>
+                    {{ i.first_name }} {{ i.second_name }} {{ i.otchestvo|default_if_none:'' }}
+                </td>
+                <td>
+                    {{ i.adress }}
+                </td>
+                <td>
+                    {{ i.vozrast|default_if_none:''}}
+                </td>
+                <td>
+                    {{ i.get_pol_display }}
+                </td>
+                <td>
+                    {{ i.opisanie|truncatechars:50 }}
+                </td>
+                <td>
+                    {{ i.status|default_if_none:'' }}
+                </td>
+                <td>
+                    {{ i.problems }}
+                </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+           <a href="{% url 'render_add' %}" class="btn btn-primary ">Добавить обращение</a>
+       </div>
+   </div>
+</div>
+
+
+{% endblock %}
+
+
+
+
+
