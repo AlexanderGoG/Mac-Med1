@@ -1,69 +1,133 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<div class="container">
-   <div class="row">
-       <div class="col-12">
-        <table class="table">
-            <tr>
-                <th>
-                    Телефон
-                </th>
-                <th>
-                    ФИО
-                </th>
-                 <th>
-                    Адрес
-                </th>
-                 <th>
-                    Возраст
-                </th>
-                 <th>
-                    Пол
-                </th>
-                 <th>
-                    Описание
-                </th>
-                 <th>
-                    Статус
-                </th>
-                 <th>
-                    Проблема
-                </th>
-            </tr>
-            {% for i in obrashenie %}
-                <tr>
-                <td>
-                    {{ i.phone }}
-                </td>
-                <td>
-                    {{ i.first_name }} {{ i.second_name }} {{ i.otchestvo|default_if_none:'' }}
-                </td>
-                <td>
-                    {{ i.adress }}
-                </td>
-                <td>
-                    {{ i.vozrast|default_if_none:''}}
-                </td>
-                <td>
-                    {{ i.get_pol_display }}
-                </td>
-                <td>
-                    {{ i.opisanie|truncatechars:50 }}
-                </td>
-                <td>
-                    {{ i.status|default_if_none:'' }}
-                </td>
-                <td>
-                    {{ i.problems }}
-                </td>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <form action="">
+                    <h3>Поиск</h3>
+                    <div class="">
+                        <label for="">Фамилия</label>
+                        <input value="{{ param_poiska.first_name }}" name="first_name" class="form-control" type="text">
+                    </div>
+                    <div class="">
+                        <label for="">Имя</label>
+                        <input value="{{ param_poiska.second_name }}" name="second_name" class="form-control" type="text">
+                    </div>
+                    <div class="">
+                        <label for="">Отчество</label>
+                        <input value="{{ param_poiska.otchestvo }}" name="otchestvo" class="form-control" type="text">
+                    </div>
+                    <div class="">
+                        <label for="">Номер телефона</label>
+                        <input value="{{ param_poiska.phone }}" name="phone" class="form-control" type="text">
+                    </div>
+                    <div class="">
+                        <label for="">Возраст</label>
+                        <input value="{{ param_poiska.vozrast }}" name="vozrast" class="form-control" type="text">
+                    </div>
+                    <div class="">
+                        <label for="">Пол</label>
+                        <select  name="pol" class="custom-select" id="inputGroupSelect01">
 
-                </tr>
-            {% endfor %}
-        </table>
-           <a href="{% url 'render_add' %}" class="btn btn-primary ">Добавить обращение</a>
-       </div>
-   </div>
-</div>
+                            <option></option>
+                            <option {% if param_poiska.pol == pol_list.FEMALE %}selected{% endif %} value="{{ pol_list.FEMALE }}">{{ pol_list.FEMALE.label }}</option>
+                            <option {% if param_poiska.pol == pol_list.MALE %}selected{% endif %} value="{{ pol_list.MALE }}">{{ pol_list.MALE.label }}</option>
+
+                        </select>
+
+
+                    </div>
+                    <div class="">
+                        <label for="">Адрес</label>
+                        <input value="{{ param_poiska.adress }}" name="adress" class="form-control" type="text">
+                    </div>
+                    <div class="">
+                        <label for="">Проблема</label>
+                        <select  name="problem" class="form-control" id="">
+                        <option value="">---</option>
+                            {% for i in problem_list %}
+                                <option {% if param_poiska.problem == i.id %}selected{% endif %} value="{{ i.id }}">{{ i.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="">
+                        <label for="">Статус</label>
+                        <select name="status" class="form-control" id="">
+                            <option value="">---</option>
+                            {% for i in status_list %}
+                                <option {% if param_poiska.status == i.id %}selected{% endif %} value="{{ i.id }}">{{ i.name }} </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-block mt-3" type="submit">
+                        Поиск
+                    </button>
+                </form>
+            </div>
+            <div class="col-12 col-md-9">
+                <table class="table">
+                    <tr>
+                        <th>
+                            Телефон
+                        </th>
+                        <th>
+                            ФИО
+                        </th>
+                        <th>
+                            Адрес
+                        </th>
+                        <th>
+                            Возраст
+                        </th>
+                        <th>
+                            Пол
+                        </th>
+                        <th>
+                            Описание
+                        </th>
+                        <th>
+                            Статус
+                        </th>
+                        <th>
+                            Проблема
+                        </th>
+                    </tr>
+                    {% for i in obrashenie %}
+                        <tr>
+                            <td>
+                                {{ i.phone }}
+                            </td>
+                            <td>
+                                {{ i.first_name }} {{ i.second_name }} {{ i.otchestvo|default_if_none:'' }}
+                            </td>
+                            <td>
+                                {{ i.adress }}
+                            </td>
+                            <td>
+                                {{ i.vozrast|default_if_none:'' }}
+                            </td>
+                            <td>
+                                {{ i.get_pol_display }}
+                            </td>
+                            <td>
+                                {{ i.opisanie|truncatechars:50 }}
+                            </td>
+                            <td>
+                                {{ i.status|default_if_none:'' }}
+                            </td>
+                            <td>
+                                {{ i.problems }}
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </table>
+                <a href="{% url 'render_add' %}" class="btn btn-primary ">Добавить обращение</a>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

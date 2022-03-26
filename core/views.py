@@ -31,12 +31,43 @@ class ObrashenieList(APIView):
 
 def render_home(request):
     list_obrashenii = []
-
+    param_poiska = {}
     obrashenie=Obrashenie.objects.all()
-
+    if request.GET.get('first_name'):
+        param_poiska['first_name']=request.GET.get('first_name')
+        obrashenie=obrashenie.filter(first_name__icontains=request.GET.get('first_name'))
+    if request.GET.get('second_name'):
+        param_poiska['second_name'] = request.GET.get('second_name')
+        obrashenie=obrashenie.filter(second_name__icontains=request.GET.get('second_name'))
+    if request.GET.get('otchestvo'):
+        param_poiska['otchestvo'] = request.GET.get('otchestvo')
+        obrashenie=obrashenie.filter(otchestvo__icontains=request.GET.get('otchestvo'))
+    if request.GET.get('phone'):
+        param_poiska['phone'] = request.GET.get('phone')
+        obrashenie=obrashenie.filter(phone__icontains=request.GET.get('phone'))
+    if request.GET.get('vozrast'):
+        param_poiska['vozrast'] = request.GET.get('vozrast')
+        obrashenie=obrashenie.filter(vozrast=request.GET.get('vozrast'))
+    if request.GET.get('pol'):
+        param_poiska['pol'] = int(request.GET.get('pol'))
+        obrashenie=obrashenie.filter(pol=request.GET.get('pol'))
+    if request.GET.get('adress'):
+        param_poiska['adress'] = request.GET.get('adress')
+        obrashenie=obrashenie.filter(adress__icontains=request.GET.get('adress'))
+    if request.GET.get('problem'):
+        param_poiska['problem'] = int(request.GET.get('problem'))
+        obrashenie=obrashenie.filter(problems_id=request.GET.get('problem'))
+    if request.GET.get('status'):
+        param_poiska['status'] = int(request.GET.get('status'))
+        obrashenie=obrashenie.filter(status_id=request.GET.get('status'))
     return render(
         request,
-        'core/home.html', {'obrashenie': obrashenie})
+        'core/home.html', {'obrashenie': obrashenie,
+                           'pol_list': PolEnum,
+                           'status_list': Status.objects.all(),
+                           'problem_list': Problems.objects.all(),
+                          'param_poiska':param_poiska,
+                           })
 def render_form(request):
     return render(
         request,
